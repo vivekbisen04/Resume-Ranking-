@@ -1,0 +1,50 @@
+# Node modules
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+combined.log
+error.log
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Environment variables
+.env
+.env.*.local
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Debug folders
+.vscode/
+.idea/
+
+# Coverage and testing
+coverage/
+.nyc_output/
+test_output/
+
+# Build directories (optional)
+dist/
+build/
+
+# Temporary files
+*.swp
+*.swo
+*.bak
+
+# Log files from Winston or custom logger
+*.log
+*.log.*
+
+# Ignore test cache
+*.test.cache
