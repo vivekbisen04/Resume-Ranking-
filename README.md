@@ -110,7 +110,7 @@ X-API-Key: your-api-key-here
 ## 📚 API Documentation
 
 Once the server is running, visit:
-- **API Endpoints**: `http://localhost:3001/api/`
+- **Test API Endpoints Here**: `https://resume-ranking-gh7a.onrender.com/api-docs/`
 
 ##  API Endpoints
 
@@ -126,69 +126,6 @@ Once the server is running, visit:
 ### Configuration
 - `GET /api/config/weights` - Get current scoring weights
 - `PUT /api/config/weights` - Update scoring weights
-
-## 📋 Usage Examples
-
-### Basic Resume Ranking
-
-```javascript
-// Single resume ranking
-const formData = new FormData();
-formData.append('resume', resumeFile);
-formData.append('jobDescription', 'Senior JavaScript Developer with 5+ years...');
-
-const response = await fetch('http://localhost:3001/api/rank', {
-  method: 'POST',
-  headers: {
-    'Authorization': 'Bearer <jwt-token>',
-    'X-API-Key': 'your-api-key'
-  },
-  body: formData
-});
-```
-
-### Bulk Resume Ranking
-
-```javascript
-// Multiple resumes ranking
-const formData = new FormData();
-formData.append('resumes', resume1File);
-formData.append('resumes', resume2File);
-formData.append('jobDescription', jobDescription);
-formData.append('weights', JSON.stringify({
-  skills: 0.4,
-  experience: 0.3,
-  education: 0.2,
-  keywords: 0.1
-}));
-
-const response = await fetch('http://localhost:3001/api/rank/bulk', {
-  method: 'POST',
-  headers: {
-    'Authorization': 'Bearer <jwt-token>'
-  },
-  body: formData
-});
-```
-
-### Custom Scoring Weights
-
-```javascript
-// Update scoring weights
-const response = await fetch('http://localhost:3001/api/config/weights', {
-  method: 'PUT',
-  headers: {
-    'Content-Type': 'application/json',
-    'Authorization': 'Bearer <jwt-token>'
-  },
-  body: JSON.stringify({
-    skills: 0.4,
-    experience: 0.3,
-    education: 0.15,
-    keywords: 0.15
-  })
-});
-```
 
 
 ## 📊 Response Format
