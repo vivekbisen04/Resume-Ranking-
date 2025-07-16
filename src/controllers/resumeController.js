@@ -65,6 +65,7 @@ const analyzeResume = async (req, res, next) => {
     
     if (req.file) {
       content = await resumeParser.parseFile(req.file);
+      console.log(content);
     } else if (req.body.content) {
       content = req.body.content;
     } else {
@@ -72,6 +73,8 @@ const analyzeResume = async (req, res, next) => {
     }
 
     const analysis = await resumeParser.parseText(content);
+    console.log(analysis);
+    
     
     res.json({
       analysis,

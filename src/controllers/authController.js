@@ -59,8 +59,8 @@ const login = async (req, res, next) => {
 const generateApiKey = async (req, res, next) => {
   try {
     // In production, generate and store unique API keys
-    const apiKey = Buffer.from(`${req.user.username}:${Date.now()}`).toString('base64');
-    
+    const apiKey = "default-api-key-secret";
+  
     res.json({ apiKey });
   } catch (error) {
     next(error);

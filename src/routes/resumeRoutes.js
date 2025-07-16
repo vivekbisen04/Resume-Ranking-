@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const resumeController = require("../controllers/resumeController");
-const { authenticateJWT, authenticateAPIKey } = require("../middleware/auth");
+const { authenticateJWT, authenticateAPIKey, authenticateEither } = require("../middleware/auth");
 const { validateRankingRequest } = require("../middleware/validation");
 const { upload } = require("../utils/fileHandler");
 
@@ -20,32 +20,25 @@ const { upload } = require("../utils/fileHandler");
  *         multipart/form-data:
  *           schema:
  *             type: object
- *             properties:
+ *             properties:      
  *               jobDescription:
  *                 type: string
- *                 description: Job description text
+ *                 description: Job description text (minimum 50 characters)
  *               resumes:
  *                 type: array
  *                 items:
  *                   type: string
  *                   format: binary
  *               weights:
- *                 type: object
- *                 properties:
- *                   skills:
- *                     type: number
- *                   experience:
- *                     type: number
- *                   education:
- *                     type: number
- *                   keywords:
- *                     type: number
+ *                 type: string
+ *                 description: JSON string of weights object
  *         application/json:
  *           schema:
  *             type: object
  *             properties:
  *               jobDescription:
  *                 type: string
+ *                 minLength: 50
  *               resumes:
  *                 type: array
  *                 items:
@@ -55,6 +48,21 @@ const { upload } = require("../utils/fileHandler");
  *                       type: string
  *                     content:
  *                       type: string
+ *               weights:
+ *                 type: object
+ *                 properties:
+ *                   skills:
+ *                     type: number
+ *                     default: 0.35
+ *                   experience:
+ *                     type: number
+ *                     default: 0.25
+ *                   education:
+ *                     type: number
+ *                     default: 0.20
+ *                   keywords:
+ *                     type: number
+ *                     default: 0.20
  *     responses:
  *       200:
  *         description: Ranked resumes
@@ -69,10 +77,12 @@ const { upload } = require("../utils/fileHandler");
  *                   type: number
  *                 rankedResumes:
  *                   type: array
+ *       401:
+ *         description: Unauthorized
  */
 router.post(
   "/rank",
-  authenticateAPIKey,
+  authenticateEither,  // Changed from authenticateAPIKey to authenticateEither
   upload.array("resumes", 50),
   validateRankingRequest,
   resumeController.rankResumes
@@ -106,10 +116,12 @@ router.post(
  *     responses:
  *       200:
  *         description: Resume analysis
+ *       401:
+ *         description: Unauthorized
  */
 router.post(
   "/analyze",
-  authenticateAPIKey,
+  authenticateEither,  // Changed from authenticateAPIKey to authenticateEither
   upload.single("resume"),
   resumeController.analyzeResume
 );

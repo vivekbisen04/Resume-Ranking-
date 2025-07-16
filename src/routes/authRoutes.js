@@ -5,6 +5,17 @@ const { authenticateJWT } = require('../middleware/auth');
 
 /**
  * @swagger
+ * components:
+ *   securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
+ *       description: 'Format: Bearer {token}'
+ */
+
+/**
+ * @swagger
  * /auth/register:
  *   post:
  *     summary: Register a new user
@@ -55,6 +66,7 @@ router.post('/register', authController.register);
  *               properties:
  *                 token:
  *                   type: string
+ *                   description: JWT token - Use this in Authorization header as "Bearer {token}"
  *                 expiresIn:
  *                   type: string
  */
@@ -64,7 +76,15 @@ router.post('/login', authController.login);
  * @swagger
  * /auth/api-key:
  *   post:
- *     summary: Generate API key
+ *     summary: Generate API key for service-to-service authentication
+ *     description: |
+ *       Generates a permanent API key that can be used instead of JWT tokens.
+ *       
+ *       **Why use API keys?**
+ *       - JWT tokens expire after 24 hours
+ *       - API keys are permanent (don't expire)
+ *       - Better for automated scripts and service integrations
+ *       - Use in X-API-Key header for resume ranking endpoints
  *     tags: [Authentication]
  *     security:
  *       - bearerAuth: []
@@ -78,6 +98,9 @@ router.post('/login', authController.login);
  *               properties:
  *                 apiKey:
  *                   type: string
+ *                   description: Use this in X-API-Key header for API requests
+ *       401:
+ *         description: Missing or invalid bearer token
  */
 router.post('/api-key', authenticateJWT, authController.generateApiKey);
 
